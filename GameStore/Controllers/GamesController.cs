@@ -22,7 +22,7 @@ namespace GameStore.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Games.FirstOrDefaultAsync(m => m.Id == id);
+            var game = await _context.Games.Include(g => g.Genres).FirstOrDefaultAsync(m => m.Id == id);
             if (game == null)
             {
                 return NotFound();

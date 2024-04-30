@@ -14,7 +14,7 @@ namespace GameStore.Controllers
         }
         public IActionResult Index()
         {
-            var games = _context.Games.ToList();
+            var games = _context.Games.Take(20).ToList();
             return View(games);
         }
         public IActionResult Privacy()

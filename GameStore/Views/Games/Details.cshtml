@@ -2,20 +2,27 @@
 @model GameStore.Data.Game
 
 <div class="container">
-    <h1>@Model.Title</h1>
-    <p>@Model.Description</p>
-    <p>Price: @Model.Price</p>
-    <p>Release Date: @Model.ReleaseDate.ToShortDateString()</p>
-    <p>Publisher: @Model.Publisher</p>
-    <p>Developer: @Model.Developer</p>
-    <p>Platform: @Model.Platform</p>
-    <p>Genres: @foreach(var genre in Model.Genres)
-        {
-            @genre.Name;
-        }
-    </p>
+    <div class="row">
+        <div class="col-md-4 col-lg-4 justify-content-center justify-content-md-start" style="padding-bottom:20px; margin:auto; width:auto">
+            <img src="@Model.CoverImageUrl" class="img-fluid" alt="Game Poster" style="max-width:400px">
+        </div>
+        <div class="col-md-8">
+            <h1>@Model.Title</h1>
+            <p>Price: @Model.Price $</p>
+            <p>Release Date: @Model.ReleaseDate.ToShortDateString()</p>
+            <p>Publisher: @Model.Publisher</p>
+            <p>Developer: @Model.Developer</p>
+            <p>Platform: @Model.Platform</p>
+            <p>
+                Genres: @string.Join(", ", Model.Genres.Select(g => g.Name))
+            </p>
+            <button type="button" class="btn btn-primary">Add to Cart</button>
+        </div>
+    </div>
 
-    
+    <div class="fixed-bottom">
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+    </div>
 
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -30,17 +37,19 @@
                     <img src="@image" class="d-block w-100" alt="Game Image">
                 </div>
             }
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="margin-bottom:30px;">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="margin-bottom:10%;margin-top:10%">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" style="margin-bottom:30px;">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" style="margin-bottom:10%;margin-top:10%">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
     </div>
 </div>
-
+<div>
+    <h1 class="mt-3">Description</h1>
+    <p>@Model.Description</p>
     <script>
         function setCarouselItemHeight() {
             var carouselItem = document.getElementById('carouselItem');
@@ -52,7 +61,4 @@
         window.addEventListener('resize', setCarouselItemHeight);
         window.onload = setCarouselItemHeight;
     </script>
-
-
-
 </div>
