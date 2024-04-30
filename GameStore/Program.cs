@@ -34,7 +34,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.MapControllerRoute(
+    name: "default",
+    pattern: "/",
+    defaults: new { Controller = "Home", action = "Index" });
 app.MapRazorPages();
 
 using(var scope = app.Services.CreateScope())
@@ -70,4 +73,5 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+await SeedData.EnsurePopulatedAsync(app);
 app.Run();
