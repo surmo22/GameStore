@@ -1,4 +1,4 @@
-﻿namespace GameStore.Data
+﻿namespace GameStore.Data.Cart
 {
     public class Cart
     {
@@ -6,16 +6,16 @@
 
         public IReadOnlyList<CartItem> Lines
         {
-            get { return this.lines; }
+            get { return lines; }
         }
 
         public virtual void AddItem(Game game, int quantity)
         {
-            CartItem? line = this.lines.Find(p => p.Game.Id == game.Id);
+            CartItem? line = lines.Find(p => p.Game.Id == game.Id);
 
             if (line is null)
             {
-                this.lines.Add(new CartItem
+                lines.Add(new CartItem
                 {
                     Game = game,
                     Quantity = quantity,
@@ -28,11 +28,11 @@
         }
 
         public virtual void RemoveLine(Game game)
-            => this.lines.RemoveAll(l => l.Game.Id == game.Id);
+            => lines.RemoveAll(l => l.Game.Id == game.Id);
 
         public decimal ComputeTotalValue()
-            => this.lines.Sum(e => e.Game.Price * e.Quantity);
+            => lines.Sum(e => e.Game.Price * e.Quantity);
 
-        public virtual void Clear() => this.lines.Clear();
+        public virtual void Clear() => lines.Clear();
     }
 }

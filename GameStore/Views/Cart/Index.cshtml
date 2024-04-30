@@ -1,0 +1,51 @@
+﻿@using GameStore.Data.Cart
+@using GameStore.Data.ViewModels
+@model CartViewModel
+<h2>Your cart</h2>
+  <table class="table table-bordered table-striped text-white">
+    <caption hidden="true">Cart</caption>
+    <thead>
+        <tr>
+            <th>Quantity</th>
+            <th>Item</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Subtotal</th>
+        </tr>
+    </thead>
+    <tbody class="text-white">
+        @foreach (var line in Model?.Cart?.Lines ?? Enumerable.Empty<CartItem>())
+        {
+            <tr>
+                <td class="text-center text-white ">@line.Quantity</td>
+                <td class="text-left text-white">@line.Game.Title</td>
+                <td class="text-right text-white">@line.Game.Price.ToString("c")</td>
+                <td class="text-right text-white">
+                    @((line.Quantity * line.Game.Price).ToString("c"))
+                </td>
+                <td class="text-center">
+                    <form method="post" asp-action="Remove" asp-controller="Cart">
+                        <input type="hidden" name="Id" value="@line.Game.Id" />
+                        <input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Remove
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">
+                @Model?.Cart?.ComputeTotalValue().ToString("c")
+            </td>
+        </tr>
+    </tfoot>
+  </table>
+  <div class="text-center">
+      <a class="btn btn-primary" href="@Model?.ReturnUrl">Continue shopping</a>
+        <a class="btn btn-primary" asp-route="checkout">Checkout</a>
+  </div>
+

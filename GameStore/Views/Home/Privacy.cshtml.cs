@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GameStore.Views
+namespace GameStore.Views.Home
 {
     public class PrivacyModel : PageModel
     {
