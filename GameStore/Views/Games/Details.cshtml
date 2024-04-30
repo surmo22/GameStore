@@ -1,5 +1,58 @@
-﻿@*
+﻿<!-- Details.cshtml -->
+@model GameStore.Data.Game
+
+<div class="container">
+    <h1>@Model.Title</h1>
+    <p>@Model.Description</p>
+    <p>Price: @Model.Price</p>
+    <p>Release Date: @Model.ReleaseDate.ToShortDateString()</p>
+    <p>Publisher: @Model.Publisher</p>
+    <p>Developer: @Model.Developer</p>
+    <p>Platform: @Model.Platform</p>
+    <p>Genres: @foreach(var genre in Model.Genres)
+        {
+            @genre.Name;
+        }
+    </p>
+
     
-*@
-@{
-}
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" id="carouselItem">
+                <divclass="embed-responsive embed-responsive-16by9" style="height: 100%;">
+                    <iframe width="100%" height="100%" class="embed-responsive-item" src="https://www.youtube.com/embed/@Model.TrailerUrl" allowfullscreen></iframe>
+                </div>
+            </div>
+            @foreach (var image in Model.GameImages)
+            {
+                <div class="carousel-item">
+                    <img src="@image" class="d-block w-100" alt="Game Image">
+                </div>
+            }
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="margin-bottom:30px;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" style="margin-bottom:30px;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+    <script>
+        function setCarouselItemHeight() {
+            var carouselItem = document.getElementById('carouselItem');
+            var width = carouselItem.offsetWidth; 
+            var aspectRatio = 16 / 9; 
+            var height = width / aspectRatio; 
+            carouselItem.style.height = height + 'px'; 
+        }
+        window.addEventListener('resize', setCarouselItemHeight);
+        window.onload = setCarouselItemHeight;
+    </script>
+
+
+
+</div>

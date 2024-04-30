@@ -2,12 +2,12 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
+<link rel="stylesheet" href="~/css/home/Index.css" />
 <div class="container">
     <div class="row">
         @foreach (var game in Model)
         {
-            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-4 m-0 ">
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-4 m-0">
                 <Game game="@game"></Game>
             </div>
         }

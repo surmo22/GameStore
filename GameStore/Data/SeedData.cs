@@ -38,7 +38,7 @@ namespace GameStore.Data
                     Developer = "CD Projekt Red",
                     Platform = "PC, PlayStation 4, Xbox One",
                     CoverImageUrl = "https://upload.wikimedia.org/wikipedia/en/0/0c/Witcher_3_cover_art.jpg",
-                    TrailerUrl = "https://www.youtube.com/watch?v=c0i88t0Kacs",
+                    TrailerUrl = "c0i88t0Kacs",
                     GameImages = new List<string>(),
                 },
                 new Game
@@ -52,7 +52,7 @@ namespace GameStore.Data
                     Developer = "Rockstar North",
                     Platform = "PC, PlayStation 3, PlayStation 4, Xbox 360, Xbox One",
                     CoverImageUrl = "https://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg",
-                    TrailerUrl = "https://www.youtube.com/watch?v=QkkoHAzjnUs",
+                    TrailerUrl = "QkkoHAzjnUs",
                     GameImages = new List<string>(),
                 },
                 new Game
@@ -66,7 +66,7 @@ namespace GameStore.Data
                     Developer = "Nintendo EPD",
                     Platform = "Nintendo Switch, Wii U",
                     CoverImageUrl = "https://assetsio.gnwcdn.com/148430785862.jpg?width=1920&height=1920&fit=bounds&quality=80&format=jpg&auto=webp",
-                    TrailerUrl = "https://www.youtube.com/watch?v=zw47_q9wbBE",
+                    TrailerUrl = "zw47_q9wbBE",
                     GameImages = new List<string>()
                 },
                 new Game
@@ -80,7 +80,7 @@ namespace GameStore.Data
                     Developer = "Rockstar Studios",
                     Platform = "PlayStation 4, Xbox One, PC, Stadia",
                     CoverImageUrl = "https://assets.vg247.com/current//2018/05/red_dead_redemption_2_cover_art_1.jpg",
-                    TrailerUrl = "https://www.youtube.com/watch?v=gmA6MrX81z4",
+                    TrailerUrl = "gmA6MrX81z4",
                     GameImages = new List<string>()
                 });
             }

@@ -1,0 +1,7 @@
+﻿.zoom:hover {
+    transform: scale(1.05);
+}
+
+.card:hover {
+    border-color: #007bff; 
+}

@@ -14,6 +14,7 @@ namespace GameStore.Controllers
         }
 
         // GET: Games/Details/5
+        [Route("~/Games/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

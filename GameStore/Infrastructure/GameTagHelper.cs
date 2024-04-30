@@ -18,15 +18,17 @@ namespace GameStore.Infrastructure
             
 
             var content = new StringBuilder();
-            content.Append("<div class='card border-2 border-dark rounded'>"); 
+            
+            content.Append("<div class='card border-2 border-dark rounded zoom'>"); 
 
             content.Append("<img class='card-img-top img-fluid'"); 
             content.Append($"src='{Game.CoverImageUrl}'");
             content.Append($"alt='{Game.Title}'");
-            content.Append("style='object-fit: cover; height: 400px;' />");
+            content.Append("style='object-fit: cover; height: 400px; color:black;' />");
 
             content.Append("<div class='card-body bg-dark text-white' style='height:100px'> "); 
             content.Append($"<h5 class='card-title'>{Game.Title}</h5>");
+            content.Append("<a href='/Games/Details/" + Game.Id + "'class='stretched-link'></a>");
             content.Append("</div>"); 
 
             content.Append("</div>");
