@@ -20,7 +20,7 @@ namespace GameStore.Services.GenreService
 
         public async Task CreateGenreAsync(Genre genre)
         {
-            _context.Genres.Add(genre);
+            await _context.Genres.AddAsync(genre);
             await _context.SaveChangesAsync();
         }
 

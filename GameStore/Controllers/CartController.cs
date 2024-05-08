@@ -16,6 +16,10 @@ namespace GameStore.Controllers
         [HttpGet]
         public IActionResult Index(string returnUrl)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             return this.View(new CartViewModel
             {
                 ReturnUrl = returnUrl ?? "/",
@@ -26,6 +30,10 @@ namespace GameStore.Controllers
         [HttpPost]
         public IActionResult Index(long Id, string returnUrl)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             Game? product = this._context.Games.FirstOrDefault(g => g.Id == Id);
 
             if (product != null)
@@ -46,6 +54,10 @@ namespace GameStore.Controllers
         [Route("Cart/Remove")]
         public IActionResult Remove(long Id, string returnUrl)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             this.Cart.RemoveLine(this.Cart.Lines.First(cl => cl.Game.Id == Id).Game);
             return this.View("Index", new CartViewModel
             {

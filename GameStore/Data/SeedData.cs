@@ -2,21 +2,22 @@
 
 namespace GameStore.Data
 {
-    public class SeedData
+    public static class SeedData
     {
+
         public static async Task EnsurePopulatedAsync(IApplicationBuilder app)
         {
             ApplicationDbContext context = app.ApplicationServices
                         .CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            if (context.Database.GetPendingMigrations().Any())
+            if ((await context.Database.GetPendingMigrationsAsync()).Any())
             {
-                context.Database.Migrate();
+                await context.Database.MigrateAsync();
             }
             
-            if (!context.Genres.Any())
+            if (!await context.Genres.AnyAsync())
             {
-                context.Genres.AddRange(new Genre {  Name = "Action" },
+                await context.Genres.AddRangeAsync(new Genre { Name = "Action" },
                 new Genre { Name = "Adventure" },
                 new Genre { Name = "Role-Playing" },
                 new Genre { Name = "Strategy" },
@@ -25,9 +26,10 @@ namespace GameStore.Data
                 new Genre { Name = "Racing" });
             }
 
-            if (!context.Games.Any())
+            if (!await context.Games.AnyAsync())
             {
-                context.Games.AddRange(new Game
+#pragma warning disable S6562 // Always set the "DateTimeKind" when creating new "DateTime" instances
+                await context.Games.AddRangeAsync(new Game
                 {
                     
                     Title = "The Witcher 3: Wild Hunt",
@@ -83,6 +85,7 @@ namespace GameStore.Data
                     TrailerUrl = "gmA6MrX81z4",
                     GameImages = new List<string>()
                 });
+#pragma warning restore S6562 // Always set the "DateTimeKind" when creating new "DateTime" instances
             }
             await context.SaveChangesAsync();
         }

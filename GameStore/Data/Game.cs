@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GameStore.Data
 {
@@ -15,8 +16,9 @@ namespace GameStore.Data
         public required string Developer { get; set; }
         public required string Platform { get; set; }
         public required string CoverImageUrl { get; set; }
+        [NotNull]
         public required string TrailerUrl { get; set; }
         public required List<string> GameImages { get; set; }
-        public ICollection<Genre> Genres { get; set; }
+        public ICollection<Genre>? Genres { get; set; }
     }
 }

@@ -2,13 +2,11 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "_AdminLayout";
 }
 
 <h1>Edit</h1>
-<style>
-    div, label {color:white;}
-    
-</style>
+<link rel="stylesheet" href="~/css/admin.css" />
 <h4>Game</h4>
 <hr />
 <div class="row">
@@ -71,7 +69,6 @@
                 <p>Select which genres to remove and add:</p>
                 <input type="text" id="genreSearch" class="form-control" placeholder="Search genres">
                 <select asp-for="Genres" asp-items="@ViewBag.Genres" multiple class="form-control" id="genreSelect"></select>
-                <span asp-validation-for="Genres" class="text-danger"></span>
             </div>
             <div class="form-group" style="margin-top:5px;margin-bottom:5px">
                 <input type="submit" value="Save" class="btn btn-primary" />

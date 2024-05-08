@@ -17,6 +17,10 @@ namespace GameStore.Controllers
         [Route("~/Games/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
             if (id == null)
             {
                 return NotFound();
