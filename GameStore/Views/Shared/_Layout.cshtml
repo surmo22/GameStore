@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using GameStore.Services.GenreService
+@inject IGenreService GenreService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,6 +8,9 @@
     <title>@ViewData["Title"] - GameStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
     <header>
@@ -22,7 +27,17 @@
                             <a class="nav-link text-white" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <div class="dropdown show">
+                                <button class="btn btn-secondary dropdown-toggle bg-transparent border-0 nav-link" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Genres
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @foreach (var genre in await GenreService.GetAllGenresAsync())
+                                    {
+                                        <a class="dropdown-item" asp-action="GamesByGenre" asp-controller="Games" asp-route-genreId="@genre.Id">@genre.Name</a>
+                                    }
+                                </div>
+                            </div>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -42,9 +57,7 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -9,5 +9,6 @@ namespace GameStore.Services.GenreService
         Task CreateGenreAsync(Genre genre);
         Task UpdateGenreAsync(Genre genre);
         Task DeleteGenreAsync(int id);
+        Task<ICollection<Game>> GetGamesByGenre(int id);
     }
 }

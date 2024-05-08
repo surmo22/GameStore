@@ -39,5 +39,16 @@ namespace GameStore.Services.GenreService
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<ICollection<Game>> GetGamesByGenre(int id)
+        {
+            var genre = await _context.Genres.Include(g => g.Games).FirstOrDefaultAsync(g => g.Id == id);
+            if (genre == null || genre.Games == null)
+            {
+                return new List<Game>();
+            }
+
+            return genre.Games;
+        }
     }
 }

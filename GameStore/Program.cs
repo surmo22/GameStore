@@ -80,4 +80,4 @@ using (var scope = app.Services.CreateScope())
 }
 
 await SeedData.EnsurePopulatedAsync(app);
-app.Run();
+await app.RunAsync();

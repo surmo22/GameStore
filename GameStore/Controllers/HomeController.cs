@@ -6,16 +6,12 @@ namespace GameStore.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public HomeController(ApplicationDbContext context)
+        public HomeController()
         {
-            _context = context;
         }
         public IActionResult Index()
         {
-            var games = _context.Games.Take(20).ToList();
-            return View(games);
+            return RedirectToAction("Index", "Games");
         }
         public IActionResult Privacy()
         {
