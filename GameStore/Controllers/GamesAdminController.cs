@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GameStore.Data;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GameStore.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class GamesAdminController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,14 +18,17 @@ namespace GameStore.Controllers
             _context = context;
         }
 
-        // GET: Games
-
+        // GET: GamesAdmin
+        [HttpGet]
+        [Route("[controller]/")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Games.ToListAsync());
         }
 
-        // GET: Games/Details/5
+        // GET: GamesAdmin/Details/5
+        [HttpGet]
+        [Route("[controller]/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,32 +46,31 @@ namespace GameStore.Controllers
             return View(game);
         }
 
-        // GET: Games/Create
-        [Authorize(Roles = "Admin")]
+        // GET: GamesAdmin/Create
+        [HttpGet]
+        [Route("[controller]/Create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Games/Create
+        // POST: GamesAdmin/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
+        [Route("[controller]/Create")]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Price,ReleaseDate,Publisher,Developer,Platform,CoverImageUrl,TrailerUrl,GameImages")] Game game)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(game);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(game);
+
+            _context.Add(game);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Games/Edit/5
-        [Authorize(Roles = "Admin")]
+        // GET: GamesAdmin/Edit/5
+        [Route("[controller]/Edit/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,44 +86,43 @@ namespace GameStore.Controllers
             return View(game);
         }
 
-        // POST: Games/Edit/5
+        // POST: GamesAdmin/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Route("[controller]/Edit/{id}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Price,ReleaseDate,Publisher,Developer,Platform,CoverImageUrl,TrailerUrl,GameImages")] Game game)
         {
             if (id != game.Id)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            
+            
+            try
             {
-                try
-                {
-                    _context.Update(game);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GameExists(game.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                game.GameImages = game.GameImages[0].Split(',').ToList();
+                _context.Update(game);
+                await _context.SaveChangesAsync();
             }
-            return View(game);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GameExists(game.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Games/Delete/5
-        [Authorize(Roles = "Admin")]
+        // GET: GamesAdmin/Delete/5
+        [Route("[controller]/Delete/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,10 +140,10 @@ namespace GameStore.Controllers
             return View(game);
         }
 
-        // POST: Games/Delete/5
+        // POST: GamesAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Route("[controller]/Delete/{id}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var game = await _context.Games.FindAsync(id);

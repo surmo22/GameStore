@@ -1,0 +1,43 @@
+﻿@model Order
+
+<h2>Check out now</h2>
+<p>Please enter your details</p>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="Checkout" method="post" class="text-white">
+    <h3>Enter you credit card</h3>
+    <div class="form-group text-white">
+        <label class="labelblack">Card:</label><input required asp-for="CardNumber" class="form-control" />
+    </div>
+    <h3>Ship to</h3>
+    <div class="form-group text-white">
+        <label class="labelblack">Name:</label><input asp-for="Name" class="form-control" />
+    </div>
+    <h3>Address</h3>
+    <div class="form-group text-white">
+        <label class="labelblack">Line 1:</label><input asp-for="Line1" class="form-control" />
+    </div>
+    <div class="form-group text-white">
+        <label class="labelblack">Line 2:</label><input asp-for="Line2" class="form-control" />
+    </div>
+    <div class="form-group text-white">
+        <label class="labelblack">Line 3:</label><input asp-for="Line3" class="form-control" />
+    </div>
+    <div class="form-group text-white">
+        <label class="labelblack">City:</label><input asp-for="City" class="form-control" />
+    </div>
+    <div class="form-group text-white">
+        <label class="labelblack">State:</label><input asp-for="State" class="form-control" />
+    </div>
+    <div class="form-group text-white">
+        <label class="labelblack">Zip:</label><input asp-for="Zip" class="form-control" />
+    </div>
+    <div class="form-group text-white">
+        <label class="labelblack">Country:</label><input asp-for="Country" class="form-control" />
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary m-1" type="submit" value="Complete Order" />
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

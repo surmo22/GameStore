@@ -1,4 +1,6 @@
-﻿namespace GameStore.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GameStore.Data
 {
     public class Game
     {
@@ -6,6 +8,8 @@
         public required string Title { get; set; }
         public required string Description { get; set; }
         public decimal Price { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ReleaseDate { get; set; }
         public required string Publisher { get; set; }
         public required string Developer { get; set; }
