@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GameStore.Data;
+using GameStore.Services.GenreService;
 
 namespace GameStore.Controllers
 {
     public class GamesAdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IGenreService genreService;
 
-        public GamesAdminController(ApplicationDbContext context)
+        public GamesAdminController(ApplicationDbContext context, IGenreService genreService)
         {
-            _context = context;
+            this._context = context;
+            this.genreService = genreService;
         }
 
         // GET: GamesAdmin
@@ -36,7 +39,7 @@ namespace GameStore.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Games
+            var game = await _context.Games.Include(x => x.Genres)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (game == null)
             {
@@ -78,11 +81,13 @@ namespace GameStore.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Games.FindAsync(id);
+            var game = await _context.Games.Include(x => x.Genres).FirstOrDefaultAsync(x => x.Id == id);
+            var genres = await genreService.GetAllGenresAsync();
             if (game == null)
             {
                 return NotFound();
             }
+            ViewBag.Genres = new SelectList(genres, "Id", "Name");
             return View(game);
         }
 
@@ -92,17 +97,38 @@ namespace GameStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("[controller]/Edit/{id}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Price,ReleaseDate,Publisher,Developer,Platform,CoverImageUrl,TrailerUrl,GameImages")] Game game)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Price,ReleaseDate,Publisher,Developer,Platform,CoverImageUrl,TrailerUrl,GameImages,Genres")] Game game)
         {
             if (id != game.Id)
             {
                 return NotFound();
             }
             
-            
             try
             {
-                game.GameImages = game.GameImages[0].Split(',').ToList();
+                var selectedGenres = Request.Form["Genres"].ToString().Split(',').Select(int.Parse).ToList();
+                IList<Genre> genres = new List<Genre>();
+                foreach (var genre in selectedGenres)
+                {
+                    var x = await genreService.GetGenreByIdAsync(genre);
+                    genres.Add(x);
+                }
+                _context.Games.Remove(await _context.Games.FindAsync(game.Id));
+                game = new Game
+                {
+                    Id = id,
+                    Title = game.Title,
+                    Description = game.Description,
+                    Price = game.Price,
+                    ReleaseDate = game.ReleaseDate,
+                    Publisher = game.Publisher,
+                    Developer = game.Developer,
+                    Platform = game.Platform,
+                    CoverImageUrl = game.CoverImageUrl,
+                    TrailerUrl = game.TrailerUrl,
+                    GameImages = game.GameImages[0].Split(',').ToList(),
+                    Genres = genres,
+            };
                 _context.Update(game);
                 await _context.SaveChangesAsync();
             }
@@ -136,7 +162,7 @@ namespace GameStore.Controllers
             {
                 return NotFound();
             }
-
+            
             return View(game);
         }
 

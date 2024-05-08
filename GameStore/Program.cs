@@ -1,5 +1,6 @@
 using GameStore.Data;
 using GameStore.Data.Cart;
+using GameStore.Services.GenreService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<Cart>(SessionCart.GetCart);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddSession();
 var app = builder.Build();
 

@@ -12,7 +12,7 @@
 <h4>Game</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -66,6 +66,14 @@
                 <input type="text" style="width:100%" asp-for="GameImages" class="form-control" value="@string.Join(", ", Model.GameImages)" />
             </div>
             <div class="form-group">
+                <label asp-for="Genres" class="control-label">Genres</label>
+                <p>Current genres: @string.Join(", ", Model.Genres)</p>
+                <p>Select which genres to remove and add:</p>
+                <input type="text" id="genreSearch" class="form-control" placeholder="Search genres">
+                <select asp-for="Genres" asp-items="@ViewBag.Genres" multiple class="form-control" id="genreSelect"></select>
+                <span asp-validation-for="Genres" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:5px;margin-bottom:5px">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -78,18 +86,19 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('#genreSearch').on('input', function () {
+                var searchValue = $(this).val().toLowerCase();
+                $('#genreSelect option').each(function () {
+                    var text = $(this).text().toLowerCase();
+                    if (text.includes(searchValue)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
 }
-<script>
-    function addImage() {
-        var container = document.getElementById("gameImagesContainer");
-        var input = document.createElement("input");
-        input.type = "text";
-        input.className = "form-control";
-        container.appendChild(input);
-    }
-
-    function removeImage(button) {
-        var container = button.parentNode.parentNode;
-        container.removeChild(button.parentNode);
-    }
-</script>
