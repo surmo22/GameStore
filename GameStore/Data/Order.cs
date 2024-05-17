@@ -9,8 +9,7 @@ namespace GameStore.Data
         [BindNever]
         public int OrderId { get; set; }
 
-        [BindNever]
-        public ICollection<CartItem> Lines { get; set; } = new List<CartItem>();
+        public ICollection<OrderItem> Lines { get; set; } = new List<OrderItem>();
 
         [Length(12, 17, ErrorMessage = "Not valid card number"), Required(ErrorMessage ="Enter credit card")]
         public string? CardNumber { get; set; }

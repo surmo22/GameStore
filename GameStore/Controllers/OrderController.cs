@@ -1,5 +1,6 @@
 ﻿using GameStore.Data;
 using GameStore.Data.Cart;
+using GameStore.Services.OrderService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,21 +9,20 @@ namespace GameStore.Controllers
     [Route("Checkout"), Authorize]
     public class OrderController : Controller
     {
-        private readonly ApplicationDbContext context;
-
         private readonly Cart cart;
+        private readonly IOrderService orderService;
 
-        public OrderController(ApplicationDbContext orderRepository, Cart cart)
+        public OrderController(Cart cart, IOrderService orderService)
         {
-            this.context = orderRepository;
             this.cart = cart;
+            this.orderService = orderService;
         }
 
         [HttpGet]
         public ViewResult Checkout() => this.View(new Order());
 
         [HttpPost]
-        public IActionResult Checkout(Order order)
+        public async Task<IActionResult> CheckoutAsync(Order order)
         {
             if (!this.cart.Lines.Any())
             {
@@ -31,8 +31,7 @@ namespace GameStore.Controllers
 
             if (this.ModelState.IsValid)
             {
-                order.Lines = this.cart.Lines.ToArray();
-                //TODO: save to db
+                await orderService.AddOrderAsync(order, this.cart.Lines.ToArray());
                 this.cart.Clear();
                 return this.View(viewName: "Completed", model: order.OrderId);
             }

@@ -1,5 +1,4 @@
 ﻿using GameStore.Data;
-using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Text;
 
@@ -9,7 +8,7 @@ namespace GameStore.Infrastructure
     public class GameTagHelper : TagHelper
     {
         [HtmlAttributeName("game")]
-        public Game Game { get; set; }
+        public required Game Game { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

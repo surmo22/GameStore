@@ -1,6 +1,4 @@
-﻿using GameStore.Data.Cart;
-
-namespace GameStore.Data.ViewModels
+﻿namespace GameStore.Data.ViewModels
 {
     public class CartViewModel
     {

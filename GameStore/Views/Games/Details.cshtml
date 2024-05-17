@@ -35,7 +35,10 @@
         <div class="carousel-inner">
             <div class="carousel-item active" id="carouselItem">
                 <div class="embed-responsive embed-responsive-16by9" style="height: 100%;">
-                    <iframe width="100%" height="100%" class="embed-responsive-item" src="https://www.youtube.com/embed/@Model.TrailerUrl" allowfullscreen></iframe>
+                    @if (Model != null && Model.TrailerUrl != null)
+                    {
+                        <iframe width="100%" height="100%" class="embed-responsive-item" src="https://www.youtube.com/embed/@Model.TrailerUrl" allowfullscreen></iframe>
+                    }
                 </div>
             </div>
             @foreach (var image in Model.GameImages)
@@ -52,6 +55,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+        </div>
     </div>
 </div>
 <div>

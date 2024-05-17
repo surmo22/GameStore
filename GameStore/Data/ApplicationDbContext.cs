@@ -9,10 +9,10 @@ namespace GameStore.Data
             : base(options)
         {
         }
-
         public DbSet<Game> Games => this.Set<Game>();
         public DbSet<Purchase> Purchases => this.Set<Purchase>();
         public DbSet<Genre> Genres => this.Set<Genre>();
         public DbSet<Order> Orders => this.Set<Order>();
+        public DbSet<Key> Keys => this.Set<Key>();
     }
 }
