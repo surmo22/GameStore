@@ -14,5 +14,6 @@ namespace GameStore.Data
         public DbSet<Genre> Genres => this.Set<Genre>();
         public DbSet<Order> Orders => this.Set<Order>();
         public DbSet<Key> Keys => this.Set<Key>();
+        public DbSet<OrderItem> OrderItems => this.Set<OrderItem>();
     }
 }

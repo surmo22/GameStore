@@ -1,0 +1,27 @@
+﻿@model IEnumerable<GameStore.Data.Game>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>My library</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Game</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Game.Title</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item">View Keys</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
