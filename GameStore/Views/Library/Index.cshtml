@@ -3,7 +3,17 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    table, td, tr, th{
+        color:white;
+    }
 
+    .fixed-size-image {
+        width: 100px;
+        height: 150px;
+        object-fit: cover; 
+    }
+</style>
 <h1>My library</h1>
 
 <table class="table">
@@ -17,9 +27,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Game.Title</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item">View Keys</a>
+                    @item.Title
+                    <br />
+                    <img src="@item.CoverImageUrl" class="fixed-size-image" />
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">View Keys</a>
                 </td>
             </tr>
         }

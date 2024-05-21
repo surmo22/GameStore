@@ -26,9 +26,13 @@ namespace GameStore.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var user = await userManager.GetUserAsync(this.User) ?? throw new InvalidOperationException("Couldn't find user");
-            var keys = await libraryService.GetUserGameKeysAsync(user, id);
-            return View(keys);
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(this.User) ?? throw new InvalidOperationException("Couldn't find user");
+                var keys = await libraryService.GetUserGameKeysAsync(user, id);
+                return View(keys);
+            }
+            return View(null);
         }
     }
 }

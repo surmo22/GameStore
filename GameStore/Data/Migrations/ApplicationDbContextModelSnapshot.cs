@@ -188,7 +188,6 @@ namespace GameStore.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("IdentityUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("KeyId")
@@ -207,7 +206,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("GameStore.Data.Purchase", b =>
@@ -475,9 +474,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
-                        .HasForeignKey("IdentityUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdentityUserId");
 
                     b.HasOne("GameStore.Data.Key", "Key")
                         .WithMany()

@@ -27,6 +27,7 @@ namespace GameStore.Services.LibraryService
                 .Include(x => x.Key)
                 .Where(x => x.IdentityUser == user)
                 .Select(x => x.Game)
+                .Distinct()
                 .ToArrayAsync();
             return games;
         }

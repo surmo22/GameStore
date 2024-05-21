@@ -34,5 +34,7 @@ namespace GameStore.Data
 
         [Required(ErrorMessage = "Please enter a country name")]
         public string? Country { get; set; }
+
+        public DateTime PurchaseDate { get; set; } = DateTime.Now;
     }
 }
