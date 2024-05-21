@@ -24,6 +24,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ILibraryService, LibraryService>();
+builder.Services.AddHttpClient<IgdbService>();
+builder.Services.AddScoped<GameService>();
 builder.Services.AddSession();
 var app = builder.Build();
 

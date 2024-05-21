@@ -9,11 +9,13 @@ namespace GameStore.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IGenreService genreService;
+        private readonly GameService gameService;
 
-        public GamesController(ApplicationDbContext context, IGenreService genreService)
+        public GamesController(ApplicationDbContext context, IGenreService genreService, GameService gameService)
         {
             this._context = context;
             this.genreService = genreService;
+            this.gameService = gameService;
         }
 
         // GET: Games/Index
@@ -23,7 +25,11 @@ namespace GameStore.Controllers
             var games = _context.Games.Take(20).ToList();
             return View(games);
         }
-
+        public async Task<IActionResult> FetchGames()
+        {
+            await gameService.FetchAndSaveGamesAsync();
+            return RedirectToAction("Index");
+        }
         // GET: Games/Details/5
         [Route("~/Games/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
