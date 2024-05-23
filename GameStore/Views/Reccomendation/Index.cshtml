@@ -1,0 +1,71 @@
+﻿@model GameStore.Data.ViewModels.ReccomendationViewModel
+
+@{
+    ViewData["Title"] = "Game Recommendations";
+}
+<style>
+    div, label{
+        color:white;
+    }
+    option{
+        color:black;
+    }
+
+    .item, .option{
+        color:black;
+    }
+</style>
+<h1>Game Recommendations</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+<form asp-action="Recommend" method="post">
+    <div>
+        <label for="searchAndSelect">Search for a Game:</label>
+        <select id="gameSelect" asp-for="SelectedGameId">
+            <option value="">-- Select a game --</option>
+            @foreach (var game in Model.Games)
+            {
+                <option value="@game.Id">@game.Title</option>
+            }
+        </select>
+    </div>
+    OR
+    <div>
+        <label>Select Genres:</label>
+        @foreach (var genre in Model.Genres)
+        {
+            <div>
+                <input type="checkbox" name="SelectedGenreIds" value="@genre.Id"
+                @(Model.SelectedGenreIds.Contains(genre.Id) ? "checked" : "") /> @genre.Name
+            </div>
+        }
+    </div>
+    <div>
+        <input type="submit" value="Get Recommendations" />
+    </div>
+</form>
+
+@if (Model.RecommendedGames != null && Model.RecommendedGames.Count > 0)
+{
+    <h2>Recommended Games:</h2>
+    <div class="row justify-content-center justify-content-md-start">
+        @foreach (var game in Model.RecommendedGames)
+        {
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-4 m-0" style="min-width:300px">
+                <partial name="_ReccomendedGamePartial" model="game" />
+            </div>
+        }
+    </div>
+}
+else if (Model.RecommendedGames != null)
+{
+    <p>No recommendations found.</p>
+}
+<script>
+    $(document).ready(function () {
+        $('select').selectize({
+            sortField: 'text'
+        });
+    });
+</script>

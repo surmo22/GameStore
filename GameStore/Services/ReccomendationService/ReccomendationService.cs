@@ -5,21 +5,23 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace ReccomendationService
+namespace GameStore.Services.ReccomendationService
 {
-    class ReccomendationService
+    public class ReccomendationService : IReccomendationService
     {
         private readonly ApplicationDbContext context;
+
         public ReccomendationService(ApplicationDbContext context)
         {
             this.context = context;
         }
-        public async void Main(string[] args)
+
+        public async Task<IList<Game>> GetReccomendedGames(IList<Genre> userPreferences)
         {
             // Sample data of games
-            List<Game> games = await context.Games.ToListAsync();
-
+            var games = await context.Games.Include(g => g.Genres).ToListAsync();
 
             // List of all possible genres
             List<Genre> allGenres = await context.Genres.ToListAsync();
@@ -33,10 +35,10 @@ namespace ReccomendationService
             }).ToArray();
 
             // Define the number of clusters (k)
-            int k = 3;
+            int k = 7;
 
             // Set a random seed for reproducibility
-            Accord.Math.Random.Generator.Seed = 42;
+            //Accord.Math.Random.Generator.Seed = 42;
 
             // Create and initialize the KMeans algorithm
             KMeans kmeans = new KMeans(k)
@@ -50,14 +52,15 @@ namespace ReccomendationService
             // Get the assignments of data points to clusters
             int[] assignments = clusters.Decide(features);
 
-            // User's preferences (e.g., genres they like)
-            List<Genre> userPreferences = new List<Genre> { allGenres[0], allGenres[1] }; // Example user preferences
+            // Create a dictionary to map game IDs to their indices
+            var gameIdToIndex = games.Select((game, index) => new { game.Id, Index = index })
+                                     .ToDictionary(x => x.Id, x => x.Index);
 
             // Find the cluster that best matches the user's preferences
             int userCluster = FindBestMatchingCluster(assignments, games, userPreferences, allGenres);
 
             // Recommend games from the cluster that matches the user's preferences
-            List<Game> recommendedGames = RecommendGamesFromCluster(games, assignments, userCluster);
+            IList<Game> recommendedGames = RecommendGamesFromCluster(games, assignments, userCluster, gameIdToIndex);
 
             // Display recommended games
             Console.WriteLine("Recommended Games:");
@@ -65,9 +68,10 @@ namespace ReccomendationService
             {
                 Console.WriteLine(game.Title);
             }
+            return recommendedGames;
         }
 
-        static int FindBestMatchingCluster(int[] assignments, List<Game> games, List<Genre> userPreferences, List<Genre> allGenres)
+        static int FindBestMatchingCluster(int[] assignments, IList<Game> games, IList<Genre> userPreferences, IList<Genre> allGenres)
         {
             // One-hot encode the user preferences
             double[] userPreferencesVector = allGenres.Select(genre => userPreferences.Contains(genre) ? 1.0 : 0.0).ToArray();
@@ -88,12 +92,11 @@ namespace ReccomendationService
             return clusterSimilarities.OrderByDescending(x => x.Value).First().Key;
         }
 
-        static List<Game> RecommendGamesFromCluster(List<Game> games, int[] assignments, int clusterIndex)
+        static IList<Game> RecommendGamesFromCluster(IList<Game> games, int[] assignments, int clusterIndex, Dictionary<int, int> gameIdToIndex)
         {
-            // Get games from the specified cluster
-            var recommendedGames = games.Where(game => assignments[game.Id - 1] == clusterIndex).ToList();
+            // Get games from the specified cluster using the gameIdToIndex dictionary
+            var recommendedGames = games.Where(game => gameIdToIndex.ContainsKey(game.Id) && assignments[gameIdToIndex[game.Id]] == clusterIndex).ToList();
             return recommendedGames;
         }
     }
-
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace GameStore.Data
@@ -8,6 +9,7 @@ namespace GameStore.Data
         public int Id { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }
+        [Column(TypeName = "decimal(2, 2)")]
         public decimal Price { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

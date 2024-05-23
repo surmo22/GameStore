@@ -12,7 +12,6 @@ namespace GameStore.Services.OrderService
 
         public async Task AddOrderAsync(Order order, Data.Cart.CartItem[] cartItems)
         {
-            ICollection<OrderItem> Lines = new List<OrderItem>();
             var currentUser = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User 
                 ?? throw new InvalidOperationException("Couldn't get user")) 
                 ?? throw new InvalidOperationException("Couldn't find user");
@@ -21,7 +20,7 @@ namespace GameStore.Services.OrderService
                 var keys = await _context.Keys.Include(x => x.Game).Where(x => x.Game.Id == cartItem.Game.Id).ToArrayAsync();
                 for (int i = 0; i < cartItem.Quantity; i++)
                 {
-                    var key = keys.FirstOrDefault(k => !k.Activated);
+                    var key = Array.Find(keys, (k) => !k.Activated);
                     var game = await _context.Games.FindAsync(cartItem.Game.Id)
                    ?? throw new InvalidOperationException("Game not found");
                     if (key == null)

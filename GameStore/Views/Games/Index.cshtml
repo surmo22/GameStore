@@ -1,12 +1,45 @@
-﻿@model ICollection<GameStore.Data.Game>
+﻿@model GameStore.Data.ViewModels.GamesViewModel
 @{
     ViewData["Title"] = "Home page";
 }
-<a asp-action="FetchGames" asp-controller="Games">Download games</a>
+<style>
+    .custom-search-bar {
+        position: relative;
+        border-radius: 40px;
+    }
+
+    .custom-search-bar input[type="text"] {
+        width: 100%;
+        padding-right: 40px; /* Make space for the hidden button */
+        
+    }
+
+    .custom-search-bar button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: none;
+        border: none;
+        color: #007bff;
+        cursor: pointer;
+        display: none; /* Hide the button */
+    }
+</style>
 <link rel="stylesheet" href="~/css/home/Index.css" />
 <div class="container">
+    <div class="custom-search-bar mb-4">
+        <form asp-action="Index" method="get">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-8 col-12 mx-auto">
+                    <input type="text" name="searchTerm" class="form-control form-control-lg form-control-md form-control-sm custom-search-bar" placeholder="Search games" />
+                    <button type="submit" class="btn btn-primary btn-lg btn-md btn-sm w-100">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="row justify-content-center justify-content-md-start">
-        @foreach (var game in Model)
+        @foreach (var game in Model.Games)
         {
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-4 m-0" style="min-width:300px">
                 <Game game="@game"></Game>
@@ -14,3 +47,4 @@
         }
     </div>
 </div>
+<partial name="_GamesPagination" model="@Model" />

@@ -1,0 +1,16 @@
+﻿@model GameStore.Data.Game;
+
+
+<div class='card border-2 border-dark rounded zoom'>
+    <img class='card-img-top img-fluid' src="@Model.CoverImageUrl" alt='{Game.Title}' style='object-fit: cover; height: 400px; color:black;' />
+    <div class='card-body bg-dark text-white' style='height:100px'>
+        <h5 class='card-title'>@Model.Title</h5>
+        <a asp-controller="Games" asp-action="Details" asp-route-id="@Model.Id" class='stretched-link'></a>
+        @if (Model.Genres != null)
+        {
+            <h6>Genres: @String.Join(", ", Model.Genres)</h6>
+        }
+    </div>
+</div>
+
+

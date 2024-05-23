@@ -1,4 +1,5 @@
 ﻿using GameStore.Data;
+using GameStore.Data.ViewModels;
 using GameStore.Services.GenreService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,27 +10,46 @@ namespace GameStore.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IGenreService genreService;
-        private readonly GameService gameService;
+        private const int PageSize = 8;
 
-        public GamesController(ApplicationDbContext context, IGenreService genreService, GameService gameService)
+        public GamesController(ApplicationDbContext context, IGenreService genreService)
         {
             this._context = context;
             this.genreService = genreService;
-            this.gameService = gameService;
         }
 
         // GET: Games/Index
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string searchTerm = "", int page = 1)
         {
-            var games = _context.Games.Take(20).ToList();
-            return View(games);
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState);
+            }
+            var totalGames = await _context.Games.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalGames / (double)PageSize);
+            IQueryable<Game> gamesQuery = _context.Games;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                gamesQuery = gamesQuery.Where(g => g.Title.Contains(searchTerm));
+            }
+
+            var games = await gamesQuery
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync();
+
+            var viewModel = new GamesViewModel
+            {
+                Games = games,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            return View(viewModel);
         }
-        public async Task<IActionResult> FetchGames()
-        {
-            await gameService.FetchAndSaveGamesAsync();
-            return RedirectToAction("Index");
-        }
+
         // GET: Games/Details/5
         [Route("~/Games/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
@@ -54,20 +74,34 @@ namespace GameStore.Controllers
 
         // GET: Games/GamesByGenre/5
         [HttpGet]
-        public async Task<IActionResult> GamesByGenre(int genreId)
+        public async Task<IActionResult> GamesByGenre(int genreId, int page = 1)
         {
             if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
             var games = await genreService.GetGamesByGenre(genreId);
-
             if (games == null)
             {
                 return NotFound();
             }
 
-            return View("Index", games);
+            var totalGames = games.Count;
+            var totalPages = (int)Math.Ceiling(totalGames / (double)PageSize);
+
+            var pagedGames = games
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+
+            var viewModel = new GamesViewModel
+            {
+                Games = pagedGames,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            return View("Index", viewModel);
         }
     }
 }

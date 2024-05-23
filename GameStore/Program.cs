@@ -3,6 +3,7 @@ using GameStore.Data.Cart;
 using GameStore.Services.GenreService;
 using GameStore.Services.LibraryService;
 using GameStore.Services.OrderService;
+using GameStore.Services.ReccomendationService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +25,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ILibraryService, LibraryService>();
-builder.Services.AddHttpClient<IgdbService>();
-builder.Services.AddScoped<GameService>();
 builder.Services.AddSession();
+builder.Services.AddScoped<IReccomendationService, ReccomendationService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

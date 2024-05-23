@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" class="form-control" type="number" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -62,6 +62,12 @@
                 <label asp-for="GameImages" class="control-label"></label>
                 <input asp-for="GameImages" class="form-control" />
                 <span asp-validation-for="GameImages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genres" class="control-label">Genres</label>
+                <p>Select which genres to add:</p>
+                <input type="text" id="genreSearch" class="form-control" placeholder="Search genres">
+                <select asp-for="Genres" asp-items="@ViewBag.Genres" multiple class="form-control" id="genreSelect"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

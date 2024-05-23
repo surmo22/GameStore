@@ -55,8 +55,10 @@ namespace GameStore.Controllers
         // GET: GamesAdmin/Create
         [HttpGet]
         [Route("[controller]/Create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var genres = await genreService.GetAllGenresAsync();
+            ViewBag.Genres = new SelectList(genres, "Id", "Name");
             return View();
         }
 
@@ -68,7 +70,22 @@ namespace GameStore.Controllers
         [Route("[controller]/Create")]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Price,ReleaseDate,Publisher,Developer,Platform,CoverImageUrl,TrailerUrl,GameImages")] Game game)
         {
-            if (ModelState.IsValid) { 
+            if (ModelState.IsValid) {
+                var selectedGenres = Request.Form["Genres"].ToString();
+                IList<Genre> genres = new List<Genre>();
+                if (!string.IsNullOrEmpty(selectedGenres))
+                {
+                    var genresIds = selectedGenres.Split(',').Select(int.Parse).ToList();
+                    foreach (var genre in genresIds)
+                    {
+                        var x = await genreService.GetGenreByIdAsync(genre);
+                        if (x != null)
+                        {
+                            genres.Add(x);
+                        }
+                    }
+                }
+                game.Genres = genres;
                 await _context.AddAsync(game);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -129,28 +146,35 @@ namespace GameStore.Controllers
                                 genres.Add(x);
                             }
                         }
-                        var foundGame = await _context.Games.FindAsync(game.Id);
-                        if (foundGame != null)
+                    }
+                    var foundGame = await _context.Games
+                                        .Include(g => g.Genres)
+                                        .FirstOrDefaultAsync(g => g.Id == game.Id);
+
+                    if (foundGame == null)
+                    {
+                        return NotFound();
+                    }
+
+                    foundGame.Title = game.Title;
+                    foundGame.Description = game.Description;
+                    foundGame.Price = game.Price;
+                    foundGame.ReleaseDate = game.ReleaseDate;
+                    foundGame.Publisher = game.Publisher;
+                    foundGame.Developer = game.Developer;
+                    foundGame.Platform = game.Platform;
+                    foundGame.CoverImageUrl = game.CoverImageUrl;
+                    foundGame.TrailerUrl = game.TrailerUrl;
+                    foundGame.GameImages = game.GameImages;
+                    if (genres.Count > 0)
+                    {
+                        foundGame.Genres?.Clear();
+                        foreach (var genre in genres)
                         {
-                            _context.Games.Remove(foundGame);
+                            foundGame.Genres?.Add(genre);
                         }
                     }
-                    game = new Game
-                    {
-                        Id = id,
-                        Title = game.Title,
-                        Description = game.Description,
-                        Price = game.Price,
-                        ReleaseDate = game.ReleaseDate,
-                        Publisher = game.Publisher,
-                        Developer = game.Developer,
-                        Platform = game.Platform,
-                        CoverImageUrl = game.CoverImageUrl,
-                        TrailerUrl = game.TrailerUrl,
-                        GameImages = game.GameImages[0].Split(',').ToList(),
-                        Genres = genres,
-                    };
-                    _context.Update(game);
+                    _context.Update(foundGame);
                     await _context.SaveChangesAsync();
                 }
             }
