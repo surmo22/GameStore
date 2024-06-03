@@ -1,0 +1,7 @@
+﻿@model AddKeysViewModel
+
+<form asp-action="AddKeys" method="post">
+    <input type="hidden" asp-for="GameId" />
+    <textarea asp-for="Keys" class="form-control" rows="10"></textarea>
+    <button type="submit" class="btn btn-primary">Add Keys</button>
+</form>

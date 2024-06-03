@@ -4,6 +4,7 @@ using GameStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240530141831_RemovedCardFromOrder")]
+    partial class RemovedCardFromOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasIndex("GenresId");
 
-                    b.ToTable("GameGenre", (string)null);
+                    b.ToTable("GameGenre");
                 });
 
             modelBuilder.Entity("GameStore.Data.Game", b =>
@@ -85,7 +88,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games", (string)null);
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("GameStore.Data.Genre", b =>
@@ -102,7 +105,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("GameStore.Data.Key", b =>
@@ -127,7 +130,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Keys", (string)null);
+                    b.ToTable("Keys");
                 });
 
             modelBuilder.Entity("GameStore.Data.Order", b =>
@@ -172,7 +175,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("GameStore.Data.OrderItem", b =>
@@ -205,7 +208,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

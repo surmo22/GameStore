@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using GameStore.Data.Cart;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -12,6 +13,7 @@ namespace GameStore.Data
         public ICollection<OrderItem> Lines { get; set; } = new List<OrderItem>();
 
         [Length(12, 17, ErrorMessage = "Not valid card number"), Required(ErrorMessage ="Enter credit card")]
+        [NotMapped]
         public string? CardNumber { get; set; }
 
         [Required(ErrorMessage = "Please enter a name")]
@@ -34,7 +36,5 @@ namespace GameStore.Data
 
         [Required(ErrorMessage = "Please enter a country name")]
         public string? Country { get; set; }
-
-        public DateTime PurchaseDate { get; set; } = DateTime.Now;
     }
 }

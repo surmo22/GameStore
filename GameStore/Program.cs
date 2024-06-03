@@ -27,6 +27,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ILibraryService, LibraryService>();
 builder.Services.AddSession();
 builder.Services.AddScoped<IReccomendationService, ReccomendationService>();
+builder.Services.AddScoped<IGameService, GameService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +59,7 @@ using(var scope = app.Services.CreateScope())
     var roles = new[] { "Admin", "User" };
     foreach(var role in roles)
     {
+        
         if(!await roleManager.RoleExistsAsync(role))
         {
             await roleManager.CreateAsync(new IdentityRole(role));

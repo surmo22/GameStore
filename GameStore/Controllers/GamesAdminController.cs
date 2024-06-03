@@ -13,11 +13,13 @@ namespace GameStore.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IGenreService genreService;
+        private readonly IGameService gameService;
 
-        public GamesAdminController(ApplicationDbContext context, IGenreService genreService)
+        public GamesAdminController(ApplicationDbContext context, IGenreService genreService, IGameService gameService)
         {
             this._context = context;
             this.genreService = genreService;
+            this.gameService = gameService;
         }
 
         // GET: GamesAdmin
@@ -233,6 +235,32 @@ namespace GameStore.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult AddKeys(int id)
+        {
+            var viewModel = new AddKeysViewModel
+            {
+                GameId = id
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddKeys(int gameId, string keys)
+        {
+            var keyValues = keys.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var keyValue in keyValues)
+            {
+                var key = new Key
+                {
+                    Value = keyValue,
+                    Game = await gameService.GetGameByIdAsync(gameId),
+                };
+                await _context.Keys.AddAsync(key);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = gameId });
         }
 
         private bool GameExists(int id)
