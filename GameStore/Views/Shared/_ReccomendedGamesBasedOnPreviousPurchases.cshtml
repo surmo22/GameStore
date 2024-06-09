@@ -1,0 +1,28 @@
+﻿@using GameStore.Services.LibraryService
+@using GameStore.Services.ReccomendationService
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IReccomendationService ReccomendationService
+@inject ILibraryService LibraryService
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    var lastBoughtGame = await LibraryService.GetLastBoughtGameAsync(user);
+    if (lastBoughtGame != null)
+    {
+        var games = await ReccomendationService.GetReccomendedGamesAsync(lastBoughtGame.Genres.ToList());
+        if (games.Any())
+        {
+            <h2>Recommended Games Based On Your Last Purchase</h2>
+            <div class="row">
+                @foreach (var game in games)
+                {
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-4 m-0">
+                        <Game game="@game" />
+                    </div>
+                }
+            </div>
+        }
+    }
+}

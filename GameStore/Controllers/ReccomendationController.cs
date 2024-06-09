@@ -50,7 +50,7 @@ namespace GameStore.Controllers
                 {
                     var genres = selectedGame.Genres?.ToList();
                     model.SelectedGenreIds = genres?.Select(x=>x.Id).ToList();
-                    recommendedGames = await reccomendationService.GetReccomendedGames(genres);
+                    recommendedGames = await reccomendationService.GetReccomendedGamesAsync(genres);
                 }
             }
             else if (model.SelectedGenreIds != null && model.SelectedGenreIds.Count > 0)
@@ -61,13 +61,16 @@ namespace GameStore.Controllers
                 {
                     genres.Add(await genreService.GetGenreByIdAsync(item));
                 }
-                recommendedGames = await reccomendationService.GetReccomendedGames(genres);
+                recommendedGames = await reccomendationService.GetReccomendedGamesAsync(genres);
             }
 
             var allGenres = await genreService.GetAllGenresAsync();
             model.Games = allGames;
             model.Genres = allGenres;
-            model.RecommendedGames = recommendedGames.Take(8).ToList();
+            if (recommendedGames.Count > 0)
+            {
+                model.RecommendedGames = recommendedGames.OrderBy(x => Guid.NewGuid()).Take(8).ToList();
+            }
             return View("Index", model);
         }
     }

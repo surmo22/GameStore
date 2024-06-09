@@ -18,7 +18,7 @@ namespace GameStore.Services.ReccomendationService
             this.context = context;
         }
 
-        public async Task<IList<Game>> GetReccomendedGames(IList<Genre> userPreferences)
+        public async Task<IList<Game>> GetReccomendedGamesAsync(IList<Genre> userPreferences)
         {
             // Sample data of games
             var games = await context.Games.Include(g => g.Genres).ToListAsync();
@@ -37,8 +37,6 @@ namespace GameStore.Services.ReccomendationService
             // Define the number of clusters (k)
             int k = 7;
 
-            // Set a random seed for reproducibility
-            //Accord.Math.Random.Generator.Seed = 42;
 
             // Create and initialize the KMeans algorithm
             KMeans kmeans = new KMeans(k)

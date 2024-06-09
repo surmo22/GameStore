@@ -10,6 +10,7 @@
             <th>Item</th>
             <th class="text-right">Price</th>
             <th class="text-right">Subtotal</th>
+            <th></th>
         </tr>
     </thead>
     <tbody class="text-white">
@@ -41,6 +42,7 @@
             <td class="text-right">
                 @Model?.Cart?.ComputeTotalValue().ToString("c")
             </td>
+            <td></td>
         </tr>
     </tfoot>
   </table>

@@ -4,6 +4,6 @@ namespace GameStore.Services.ReccomendationService
 {
     public interface IReccomendationService
     {
-        Task<IList<Game>> GetReccomendedGames(IList<Genre> userPreferences);
+        Task<IList<Game>> GetReccomendedGamesAsync(IList<Genre> userPreferences);
     }
 }

@@ -31,5 +31,21 @@ namespace GameStore.Services.LibraryService
                 .ToArrayAsync();
             return games;
         }
+
+        public async Task<Game?> GetLastBoughtGameAsync(IdentityUser? user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+            var game = await _context.OrderItems
+                .Where(x => x.IdentityUser == user)
+                .Include(x => x.Game)
+                .ThenInclude(x => x.Genres)
+                .OrderByDescending(x => x.Id)
+                .Select(x => x.Game)
+                .FirstOrDefaultAsync();
+            return game;
+        }
     }
 }

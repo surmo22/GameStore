@@ -7,19 +7,28 @@ namespace GameStore.Data
     public class Game
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        [Required]
+        public string? Title { get; set; }
+        [Required]
+        public string? Description { get; set; }
+        [Required]
         public decimal Price { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ReleaseDate { get; set; }
-        public string Publisher { get; set; }
-        public  string Developer { get; set; }
-        public  string Platform { get; set; }
-        public  string CoverImageUrl { get; set; }
-        [NotNull]
-        public  string TrailerUrl { get; set; }
-        public  List<string> GameImages { get; set; }
+        [Required]
+        public string? Publisher { get; set; }
+        [Required]
+        public string? Developer { get; set; }
+        [Required]
+        public string? Platform { get; set; }
+        [Required]
+        public string? CoverImageUrl { get; set; }
+        [Required]
+        public string? TrailerUrl { get; set; }
+        [Required]
+        public List<string>? GameImages { get; set; }
         public ICollection<Genre>? Genres { get; set; }
     }
 }

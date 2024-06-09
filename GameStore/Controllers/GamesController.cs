@@ -9,12 +9,10 @@ namespace GameStore.Controllers
     public class GamesController : Controller
     {
         private readonly IGameService _gameService;
-        private readonly IGenreService _genreService;
 
-        public GamesController(IGameService gameService, IGenreService genreService)
+        public GamesController(IGameService gameService)
         {
             _gameService = gameService;
-            _genreService = genreService;
         }
 
         public async Task<IActionResult> Index(string? searchTerm, int page = 1)

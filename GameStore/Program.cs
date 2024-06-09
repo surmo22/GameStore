@@ -1,5 +1,6 @@
 using GameStore.Data;
 using GameStore.Data.Cart;
+using GameStore.Services.GameService;
 using GameStore.Services.GenreService;
 using GameStore.Services.LibraryService;
 using GameStore.Services.OrderService;

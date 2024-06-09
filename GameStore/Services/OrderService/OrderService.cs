@@ -28,7 +28,7 @@ namespace GameStore.Services.OrderService
                         key = new Key
                         {
                             Game = game,
-                            Value = "MyKey",
+                            Value = Guid.NewGuid().ToString(),
                             Activated = true,
                         };
                         await _context.Keys.AddAsync(key);
