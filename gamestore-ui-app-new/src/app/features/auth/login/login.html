@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+  <div>
+    <label for="email">Email</label>
+    <input formControlName="email" type="email" placeholder="Email" />
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input formControlName="password" type="password" placeholder="Password" />
+  </div>
+  <app-button (onClick)="onInternalLogin()"
+    label="Login"
+  ></app-button>
+  <app-button
+    label="Login with External Service"
+    (onClick)="onExternalLogin()"
+  ></app-button>
+</form>

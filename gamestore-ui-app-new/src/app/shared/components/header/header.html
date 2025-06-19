@@ -1,1 +1,30 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <a routerLink="/" class="logo">Game Store</a>
+      <nav class="main-nav">
+        <a routerLink="/games" routerLinkActive="active">Games</a>
+        <a routerLink="/genres" routerLinkActive="active">Genres</a>
+        <a routerLink="/publishers" routerLinkActive="active">Publishers</a>
+      </nav>
+    </div>
+
+    <div class="header-right">
+      <div class="user-actions">
+        <a routerLink="/cart" class="cart-icon">
+          <i class="fas fa-shopping-cart"></i>
+          @if(cartItemCount > 0){
+            <span class="cart-count">{{cartItemCount}}</span>
+          }
+        </a>
+        <a routerLink="/auth/login" class="login-button">Login</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-welcome">
+    <h1>What Can Make Your Life Easier?</h1>
+    <p>Empowered Solutions with Simple Process</p>
+  </div>
+
+</header>

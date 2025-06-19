@@ -1,0 +1,76 @@
+.social {
+  display: flex;
+  gap: 2rem;
+  background: transparent;
+  color: #232323;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+
+  > div {
+    flex: 1 1 0;
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+    color: #232323;
+    font-weight: 600;
+  }
+
+  label {
+    display: block;
+    margin: 0.7rem 0 0.2rem;
+    font-size: 0.95rem;
+    color: #212121;
+  }
+
+  input,
+  textarea {
+    border-radius: 0.1rem;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border: 1px solid #020202;
+    background: #fff;
+    color: #232323;
+    font-size: 1rem;
+    resize: none;
+  }
+
+  .social-twitter-entry,
+  .social-blog-entry {
+    background: #f6f6f6;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.98rem;
+    color: #7a6a3a;
+  }
+
+  .social-blog-entry a {
+    color: #ffb347;
+    text-decoration: underline;
+    &:hover {
+      color: #232323;
+    }
+  }
+}
+
+div app-button{
+  margin-top: auto;
+}
+
+// Responsive design
+@media (max-width: 992px) {
+  .social {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+  }
+}
