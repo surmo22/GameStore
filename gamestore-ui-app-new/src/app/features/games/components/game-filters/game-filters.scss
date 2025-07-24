@@ -1,0 +1,166 @@
+
+.filters-container {
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: #0066cc;
+      box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+    }
+
+    &[multiple] {
+      height: auto;
+      min-height: 120px;
+    }
+  }
+
+  .price-range {
+    .price-inputs {
+      display: flex;
+      gap: 1rem;
+
+      .price-input-group {
+        flex: 1;
+        min-width: 0;
+
+        label {
+          display: block;
+          font-size: 0.9rem;
+          color: #666;
+          margin-bottom: 0.5rem;
+        }
+
+        input[type="number"] {
+          width: 100%;
+          padding: 0.75rem;
+
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 0.9rem;
+          min-width: 0;
+          box-sizing: border-box;
+
+          &:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+          }
+
+          &::-webkit-inner-spin-button {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #333;
+
+    &:hover {
+      color: #0066cc;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+
+      &:checked {
+        accent-color: #0066cc;
+      }
+    }
+  }
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 0.9rem;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 1rem auto;
+    border: 2px solid #ddd;
+    border-top-color: #0066cc;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #fff5f5;
+  border: 1px solid #fc8181;
+  border-radius: 4px;
+  color: #c53030;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .filters-container {
+    padding: 1rem;
+  }
+
+  .filter-section {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+
+    .price-range .price-inputs {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+}

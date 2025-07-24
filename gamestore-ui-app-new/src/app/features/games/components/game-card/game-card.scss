@@ -1,0 +1,54 @@
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  border:none;
+  background: #fff;
+}
+
+.game-card__image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 1px;
+  object-fit: cover;
+}
+
+.game-card__content {
+  margin-top: 8px;
+  text-align: left;
+}
+
+.game-card__name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.game-card__price-original {
+  color: #999;
+  font-size: 0.9rem;
+  margin: 2px 0;
+}
+
+.game-card__price-original s {
+  text-decoration: line-through;
+}
+
+.game-card__price-discounted {
+  color: #e53935;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.game-card__discount {
+  color: #43a047;
+  font-size: 0.9rem;
+  margin-left: 4px;
+}
+
+.game-card__price {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+}

@@ -17,7 +17,12 @@
             <span class="cart-count">{{cartItemCount}}</span>
           }
         </a>
-        <a routerLink="/auth/login" class="login-button">Login</a>
+        @if(!isLoggedIn) {
+          <a routerLink="/auth/login" class="login-button">Login</a>
+        }
+        @else {
+          <a (click)="logout()" class="login-button">Logout</a>
+        }
       </div>
     </div>
   </div>

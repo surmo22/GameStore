@@ -5,6 +5,7 @@ import {Footer} from './components/footer/footer';
 import {Header} from './components/header/header';
 import {Social} from './components/social/social';
 import {AuthService} from './services/authService/auth-service';
+import {GameService} from './services/gameService/game-service';
 
 
 

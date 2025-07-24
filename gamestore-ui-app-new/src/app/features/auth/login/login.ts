@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {SharedModule} from '../../../shared/shared-module';
 import {AuthService} from '../../../shared/services/authService/auth-service';
 import {LoginRequest} from '../../../models/auth/login-request';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginPage implements OnInit{
   form!: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private authService: AuthService) {}
+              private authService: AuthService,
+              private router: Router) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -35,6 +37,8 @@ export class LoginPage implements OnInit{
       };
 
       this.authService.login(loginRequest).subscribe();
+
+      this.router.navigate(['/']).then(r => true);
     }
   }
 
@@ -47,6 +51,7 @@ export class LoginPage implements OnInit{
       };
 
       this.authService.login(loginRequest).subscribe();
+      this.router.navigate(['/']).then(r => true);
     }
   }
 }

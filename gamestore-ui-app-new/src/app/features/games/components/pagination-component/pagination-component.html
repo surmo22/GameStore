@@ -1,0 +1,34 @@
+<div class="pagination-container">
+  <!-- Previous Button -->
+  <button
+    class="pagination-btn"
+    [disabled]="currentPage === 1"
+    (click)="previousPage()"
+  >
+    &lt; <!-- Left Arrow -->
+  </button>
+
+  <!-- Page Numbers -->
+  @for (page of pageRange; track page) {
+    @if (page === '...') {
+      <span class="ellipsis">...</span>
+    } @else {
+      <button
+        class="page-number"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+    }
+  }
+
+  <!-- Next Button -->
+  <button
+    class="pagination-btn"
+    [disabled]="currentPage === totalPages"
+    (click)="nextPage()"
+  >
+    &gt; <!-- Right Arrow -->
+  </button>
+</div>

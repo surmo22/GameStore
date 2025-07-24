@@ -1,1 +1,51 @@
-<p>games-list works!</p>
+<div class="games-container">
+  <!-- Header Row -->
+  <div class="games-header">
+    <div class="games-header-left">
+      <h1 class="games-title">Games</h1>
+      <input
+        type="text"
+        placeholder="Search games..."
+        class="search-input"
+      />
+    </div>
+    <div class="filters-header">
+      <h2 class="filters-title">Filters</h2>
+    </div>
+  </div>
+
+  <!-- Layout: Grid + Filters -->
+  <div class="games-layout">
+    <!-- LEFT: Game Grid + Pagination -->
+    <div class="games-main-column">
+      <div class="games-grid">
+        @if (games$ | async; as games) {
+          @for (game of games.games; track game.id) {
+            <app-game-card [game]="game"></app-game-card>
+          } @empty {
+            <p>No games available</p>
+          }
+        }
+      </div>
+
+      <!-- Pagination below game grid -->
+      <div class="pagination-wrapper">
+        <app-pagination-component
+          [currentPage]="currentPage"
+          [totalPages]="(games$ | async)?.totalPages ?? 1"
+          (pageChange)="setPage($event)"
+        ></app-pagination-component>
+      </div>
+    </div>
+
+    <!-- RIGHT: Filters -->
+    <aside class="games-filters">
+      <!-- Filter controls -->
+      <app-game-filters (filtersChanged)="onFilterChange($event)"></app-game-filters>
+    </aside>
+  </div>
+
+
+
+
+</div>

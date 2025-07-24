@@ -1,1 +1,28 @@
-<p>game-card works!</p>
+<div class="game-card">
+  <img
+    [src]="getImageUrl(game.key)"
+    [alt]="game.name"
+    width="200"
+    height="200"
+    class="game-card__image"
+    (error)="onImageError($event)"
+    style="object-fit: cover;" />
+
+  <div class="game-card__content">
+    <h3 class="game-card__name">{{ game.name }}</h3>
+
+    @if (game.discount !== 0) {
+      <p class="game-card__price-original">
+        <s>{{ game.price | number: '1.2-2' }}</s>
+      </p>
+      <p class="game-card__price-discounted">
+        {{ (game.price * (1 - game.discount / 100)) | number: '1.2-2' }}
+        <span class="game-card__discount">({{ game.discount }}% off)</span>
+      </p>
+    } @else {
+      <p class="game-card__price">
+        {{ game.price | number: '1.2-2' }}
+      </p>
+    }
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="filters-container">
+  <!-- Sort Options -->
+  <div class="filter-section">
+    <h3>Sort By</h3>
+    <select
+      [ngModel]="selectedFilters.sort"
+      (ngModelChange)="onSortChange($event)">
+      <option value="">Select sorting</option>
+      @for (option of sortOptions; track option) {
+        <option [value]="option">{{ option }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Price Range -->
+  <div class="filter-section">
+    <h3>Price Range</h3>
+    <div class="price-range">
+      <div class="price-inputs">
+        <div class="price-input-group">
+          <label for="minPrice">Min $</label>
+          <input type="number"
+                 id="minPrice"
+                 [(ngModel)]="priceRange.min"
+                 (change)="onPriceRangeChange()"
+                 min="0"
+                 [max]="priceRange.max">
+        </div>
+        <div class="price-input-group">
+          <label for="maxPrice">Max $</label>
+          <input type="number"
+                 id="maxPrice"
+                 [(ngModel)]="priceRange.max"
+                 (change)="onPriceRangeChange()"
+                 [min]="priceRange.min">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Publishers -->
+  <div class="filter-section">
+    <h3>Publishers</h3>
+    @for (publisher of publishers; track publisher.id) {
+      <label>
+        <input type="checkbox"
+               [checked]="(selectedFilters.publisher || []).includes(publisher.id)"
+               (change)="onPublisherChange(publisher.id, $event)">
+        {{publisher.companyName}}
+      </label>
+    }
+  </div>
+
+
+  <!-- Release Date -->
+  <div class="filter-section">
+    <h3>Release Date</h3>
+    @for (option of releaseDateOptions; track option) {
+      <label>
+        <input type="radio"
+               name="releaseDate"
+               [value]="option"
+               [checked]="selectedFilters.datePublishing === option"
+               (change)="onReleaseDateChange(option)">
+        {{option}}
+      </label>
+    }
+  </div>
+  <!-- Genres -->
+  <div class="filter-section">
+    <h3>Genres</h3>
+    @for (genre of genres; track genre.id) {
+      <label>
+        <input type="checkbox"
+               [checked]="(selectedFilters.genres || []).includes(genre.id)"
+               (change)="onGenreChange(genre.id, $event)">
+        {{genre.name}}
+      </label>
+    }
+  </div>
+
+  <!-- Platforms -->
+  <div class="filter-section">
+    <h3>Platforms</h3>
+    @for (platform of platforms; track platform.id) {
+      <label>
+        <input type="checkbox"
+               [checked]="(selectedFilters.platforms || []).includes(platform.id)"
+               (change)="onPlatformChange(platform.id, $event)">
+        {{platform.type}}
+      </label>
+    }
+  </div>
+
+  @if (loading) {
+    <div class="loading-spinner">Loading filters...</div>
+  }
+
+  @if (!loading && error) {
+    <div class="error-message">
+      Failed to load filters. Please try again later.
+    </div>
+  }
+</div>
