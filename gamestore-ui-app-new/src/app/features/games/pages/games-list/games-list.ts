@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import { Game } from '../../../../models/games/game.model';
 import * as GamesActions from '../../../../store/games/games.actions';
 import * as GamesSelectors from '../../../../store/games/games.selectors';
 import {Store} from '@ngrx/store';

@@ -38,7 +38,7 @@ export class LoginPage implements OnInit{
 
       this.authService.login(loginRequest).subscribe();
 
-      this.router.navigate(['/']).then(r => true);
+      this.router.navigate(['/']).then(() => true);
     }
   }
 
@@ -51,7 +51,7 @@ export class LoginPage implements OnInit{
       };
 
       this.authService.login(loginRequest).subscribe();
-      this.router.navigate(['/']).then(r => true);
+      this.router.navigate(['/']).then(() => true);
     }
   }
 }

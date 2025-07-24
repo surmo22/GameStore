@@ -1,10 +1,8 @@
 ﻿import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as GamesActions from './games.actions';
-import * as GamesSelectors from './games.selectors';
-import {catchError, map, mergeMap, of, switchMap, withLatestFrom} from 'rxjs';
+import {catchError, map, mergeMap, of, switchMap} from 'rxjs';
 import {GameService} from '../../shared/services/gameService/game-service';
-import {Store} from '@ngrx/store';
 
 @Injectable()
 export class GamesEffects {

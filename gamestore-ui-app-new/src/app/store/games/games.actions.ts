@@ -1,5 +1,4 @@
 ﻿import { createAction, props } from '@ngrx/store';
-import { Game } from '../../models/games/game.model';
 import {GameResponse} from '../../models/games/game-response';
 import {GameFilter} from '../../models/games/game.filter';
 
