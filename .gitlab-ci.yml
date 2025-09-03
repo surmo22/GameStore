@@ -1,0 +1,44 @@
+stages:
+  - build
+  - test
+
+# Build stage to restore dependencies and build the project
+build:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0 # Use .NET 8 SDK image
+  script:
+    - echo "Restoring and building the project"
+    - dotnet restore
+    - dotnet build
+
+# Test stage to run tests and collect code coverage
+test:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:8.0  # .NET SDK 8.0 with Linux
+  services:
+    - docker:24.0.5-dind
+  variables:
+    DOCKER_DRIVER: "overlay2"
+    DOCKER_TLS_CERTDIR: ""  # Disable TLS to allow communication
+    DOCKER_HOST: "tcp://docker:2375"
+  before_script:
+    - apt-get update && apt-get install -y docker.io  # Install Docker inside .NET SDK image
+    - apt-get install -y fontconfig xfonts-utils
+    - apt-get install -y fonts-liberation fonts-dejavu-core fonts-freefont-ttf fonts-noto fonts-noto-mono
+    - fc-cache -f -v
+  script:
+    - echo "Verifying Docker"
+    - docker --version  # Ensure Docker is available
+    - docker info  # Check if Docker is accessible
+    - echo "Running tests and collecting code coverage"
+    - dotnet tool install --global coverlet.console # Install Coverlet
+    - export PATH="$PATH:/root/.dotnet/tools" # Add Coverlet to path
+    - dotnet test GameStore.Tests --results-directory artifacts/unit_test_results/ /p:CollectCoverage=true /p:CoverletOutput=artifacts/unit_test_results/coverage.xml /p:CoverletOutputFormat=cobertura /p:Threshold=20 /p:ThresholdStat=total /p:ExcludeByFile="**/Migrations/*"
+    - dotnet test GameStore.IntegrationTests --results-directory artifacts/integration_test_results/ /p:CollectCoverage=true /p:CoverletOutput=artifacts/integration_test_results/coverage.xml /p:CoverletOutputFormat=cobertura /p:Threshold=20 /p:ThresholdStat=total /p:ExcludeByFile="**/Migrations/*"
+  artifacts:
+    paths:
+      - artifacts/test_results/*/coverage.cobertura.xml
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: artifacts/test_results/*/coverage.cobertura.xml
